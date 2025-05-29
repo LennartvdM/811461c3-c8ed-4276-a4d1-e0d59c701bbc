@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radial Chart with Scores, Benchmark, and Average</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: Arial, sans-serif;
+      }
+      canvas {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+      }
+      .controls-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 460px;
+      }
+      .input-sections {
+        display: flex;
+        flex-direction: column;
+      }
+      .input-section {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+      }
+      input {
+        margin: 2px;
+        font-size: 12px;
+        padding: 3px;
+        width: 40px;
+        border: 2px solid;
+        border-radius: 4px;
+      }
+      #scoreInputs input {
+        border-color: #076c98;
+      }
+      #benchmarkInputs input {
+        border-color: #f47b54;
+      }
+      #averageInputs input {
+        border-color: #ffff00;
+      }
+      .buttons-container {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+      }
+      button {
+        margin: 2px 0;
+        padding: 5px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      #exportPNG {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .export-container {
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+      }
+      #fileNameInput {
+        width: 120px;
+        margin-right: 5px;
+        padding: 4px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="radialChart"></canvas>
+
+    <div class="controls-container">
+      <div class="input-sections">
+        <div id="scoreInputs" class="input-section"></div>
+        <div id="benchmarkInputs" class="input-section"></div>
+        <div id="averageInputs" class="input-section"></div>
+      </div>
+      <div class="buttons-container">
+        <button id="toggleBenchmark">Benchmark</button>
+        <button id="toggleAverage">Average</button>
+        <div class="export-container">
+          <input
+            type="text"
+            id="fileNameInput"
+            placeholder="File name"
+            value="radial-chart"
+          />
+          <button id="exportPNG">Export PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="chart-script.js"></script>
+  </body>
+</html>
