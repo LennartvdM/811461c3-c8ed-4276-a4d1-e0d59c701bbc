@@ -28,6 +28,7 @@ const averageStrokeColor = "#444444";
 
 let showBenchmark = true;
 let showAverage = true;
+let showValues = false;
 let svgVerticalOffset = 10;
 
 function loadSVG(url) {
@@ -328,6 +329,27 @@ async function drawChart(
     );
   }
 
+  // Draw numeric values if showValues is true
+  if (showValues) {
+    ctx.font = 'bold 20px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (let category = 0; category < 6; category++) {
+      const angle = category * sliceAngle + rotationAngle;
+      const valueRadius = maxRadius * 0.75; // Position between 3rd and 4th ring
+      const x = centerX + valueRadius * Math.cos(angle);
+      const y = centerY + valueRadius * Math.sin(angle);
+      const value = scores[category].toFixed(1);
+      // Draw black outline
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 4;
+      ctx.strokeText(value, x, y);
+      // Draw white text
+      ctx.fillStyle = 'white';
+      ctx.fillText(value, x, y);
+    }
+  }
+
   // Load and draw the SVG
   try {
     const svgImage = await loadSVG("roundletters.svg");
@@ -386,6 +408,8 @@ function toggleVisibility(elementId) {
     showBenchmark = !showBenchmark;
   } else if (elementId === "toggleAverage") {
     showAverage = !showAverage;
+  } else if (elementId === "toggleValues") {
+    showValues = !showValues;
   }
   updateChart();
 }
@@ -456,6 +480,10 @@ document.getElementById("toggleBenchmark").addEventListener("click", () => {
 
 document.getElementById("toggleAverage").addEventListener("click", () => {
   toggleVisibility("toggleAverage");
+});
+
+document.getElementById("toggleValues").addEventListener("click", () => {
+  toggleVisibility("toggleValues");
 });
 
 document.getElementById("exportPNG").addEventListener("click", exportAsPNG);
