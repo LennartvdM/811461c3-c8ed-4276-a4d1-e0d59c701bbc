@@ -331,18 +331,22 @@ async function drawChart(
 
   // Draw numeric values if showValues is true
   if (showValues) {
-    ctx.font = 'bold 20px Arial';
+    // Calculate the radius for the center of the gap between the 3rd and 4th ring
+    const thirdRingOuter = (centerHole + 3 * (ringThickness + gapThickness)) * layerThickness;
+    const fourthRingInner = (centerHole + 3 * (ringThickness + gapThickness) + gapThickness) * layerThickness;
+    const gapCenterRadius = (thirdRingOuter + fourthRingInner) / 2;
+
+    ctx.font = 'bold 60px Arial'; // Larger font size
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     for (let category = 0; category < 6; category++) {
       const angle = category * sliceAngle + rotationAngle;
-      const valueRadius = maxRadius * 0.75; // Position between 3rd and 4th ring
-      const x = centerX + valueRadius * Math.cos(angle);
-      const y = centerY + valueRadius * Math.sin(angle);
+      const x = centerX + gapCenterRadius * Math.cos(angle);
+      const y = centerY + gapCenterRadius * Math.sin(angle);
       const value = scores[category].toFixed(1);
       // Draw black outline
       ctx.strokeStyle = 'black';
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 8;
       ctx.strokeText(value, x, y);
       // Draw white text
       ctx.fillStyle = 'white';
