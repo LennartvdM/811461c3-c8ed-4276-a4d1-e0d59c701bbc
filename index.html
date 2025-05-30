@@ -17,14 +17,16 @@
       }
       .controls-container {
         display: flex;
-        justify-content: center;
-        align-items: flex-start;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
         max-width: 460px;
+        margin-bottom: 20px;
       }
       .input-sections {
         display: flex;
         flex-direction: column;
+        width: 100%;
       }
       .input-section {
         display: flex;
@@ -51,7 +53,10 @@
       .buttons-container {
         display: flex;
         flex-direction: column;
-        margin-left: 10px;
+        align-items: center;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
       }
       button {
         margin: 2px 0;
@@ -75,7 +80,9 @@
       .export-container {
         display: flex;
         align-items: center;
-        margin-top: 5px;
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
       }
       #fileNameInput {
         width: 120px;
