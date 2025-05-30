@@ -31,6 +31,11 @@ let showAverage = true;
 let showValues = false;
 let svgVerticalOffset = 10;
 
+// Value label controls
+let valueAngleOffset = 0; // degrees
+let valueFontSize = 60; // px
+let valueDistancePercent = 100; // percent of default gap center radius
+
 function loadSVG(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -334,19 +339,22 @@ async function drawChart(
     // Calculate the radius for the center of the gap between the 3rd and 4th ring
     const thirdRingOuter = (centerHole + 3 * (ringThickness + gapThickness)) * layerThickness;
     const fourthRingInner = (centerHole + 3 * (ringThickness + gapThickness) + gapThickness) * layerThickness;
-    const gapCenterRadius = (thirdRingOuter + fourthRingInner) / 2;
+    let gapCenterRadius = (thirdRingOuter + fourthRingInner) / 2;
+    // Apply user distance percent
+    gapCenterRadius = gapCenterRadius * (valueDistancePercent / 100);
 
-    ctx.font = 'bold 60px Arial'; // Larger font size
+    ctx.font = `bold ${valueFontSize}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     for (let category = 0; category < 6; category++) {
-      const angle = category * sliceAngle + rotationAngle;
+      // Apply user angle offset (convert degrees to radians)
+      const angle = category * sliceAngle + rotationAngle + (valueAngleOffset * Math.PI / 180);
       const x = centerX + gapCenterRadius * Math.cos(angle);
       const y = centerY + gapCenterRadius * Math.sin(angle);
       const value = scores[category].toFixed(1);
       // Draw black outline
       ctx.strokeStyle = 'black';
-      ctx.lineWidth = 8;
+      ctx.lineWidth = Math.max(2, valueFontSize / 8);
       ctx.strokeText(value, x, y);
       // Draw white text
       ctx.fillStyle = 'white';
@@ -475,8 +483,37 @@ async function exportScenario(fileName, includeBenchmark, includeAverage) {
   link.click();
 }
 
+// Add event listeners for the new controls
+function setupValueControls() {
+  const valueControls = document.getElementById('valueControls');
+  const toggleValues = document.getElementById('toggleValues');
+  const angleInput = document.getElementById('valueAngleOffset');
+  const fontSizeInput = document.getElementById('valueFontSize');
+  const distanceInput = document.getElementById('valueDistance');
+
+  // Show/hide controls based on checkbox
+  toggleValues.addEventListener('change', () => {
+    valueControls.style.display = toggleValues.checked ? '' : 'none';
+  });
+
+  // Update variables and chart on input
+  angleInput.addEventListener('input', () => {
+    valueAngleOffset = parseFloat(angleInput.value) || 0;
+    updateChart();
+  });
+  fontSizeInput.addEventListener('input', () => {
+    valueFontSize = parseFloat(fontSizeInput.value) || 60;
+    updateChart();
+  });
+  distanceInput.addEventListener('input', () => {
+    valueDistancePercent = parseFloat(distanceInput.value) || 100;
+    updateChart();
+  });
+}
+
 createInputs();
 updateChart();
+setupValueControls();
 
 document.getElementById("toggleBenchmark").addEventListener("click", () => {
   toggleVisibility("toggleBenchmark");
