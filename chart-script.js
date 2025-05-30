@@ -485,16 +485,9 @@ async function exportScenario(fileName, includeBenchmark, includeAverage) {
 
 // Add event listeners for the new controls
 function setupValueControls() {
-  const valueControls = document.getElementById('valueControls');
-  const toggleValues = document.getElementById('toggleValues');
   const angleInput = document.getElementById('valueAngleOffset');
   const fontSizeInput = document.getElementById('valueFontSize');
   const distanceInput = document.getElementById('valueDistance');
-
-  // Show/hide controls based on checkbox
-  toggleValues.addEventListener('change', () => {
-    valueControls.style.display = toggleValues.checked ? '' : 'none';
-  });
 
   // Update variables and chart on input
   angleInput.addEventListener('input', () => {
