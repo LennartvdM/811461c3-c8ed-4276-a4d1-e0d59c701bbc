@@ -511,20 +511,23 @@ function setupValueControls() {
   });
 }
 
-createInputs();
-updateChart();
-setupValueControls();
+// Wrap initialization in DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+  createInputs();
+  updateChart();
+  setupValueControls();
 
-document.getElementById("toggleBenchmark").addEventListener("click", () => {
-  toggleVisibility("toggleBenchmark");
+  document.getElementById("toggleBenchmark").addEventListener("click", () => {
+    toggleVisibility("toggleBenchmark");
+  });
+
+  document.getElementById("toggleAverage").addEventListener("click", () => {
+    toggleVisibility("toggleAverage");
+  });
+
+  document.getElementById("toggleValues").addEventListener("click", () => {
+    toggleVisibility("toggleValues");
+  });
+
+  document.getElementById("exportPNG").addEventListener("click", exportAsPNG);
 });
-
-document.getElementById("toggleAverage").addEventListener("click", () => {
-  toggleVisibility("toggleAverage");
-});
-
-document.getElementById("toggleValues").addEventListener("click", () => {
-  toggleVisibility("toggleValues");
-});
-
-document.getElementById("exportPNG").addEventListener("click", exportAsPNG);
